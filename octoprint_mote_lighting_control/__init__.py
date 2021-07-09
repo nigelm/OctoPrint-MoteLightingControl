@@ -71,6 +71,11 @@ class MoteLightingControlPlugin(
         self.mote.show()
 
     # -----------------------------------------------------------------------
+    def on_after_startup(self):
+        self._logger.info("Startup of Mote Lighting")
+        self.check_initialised()
+
+    # -----------------------------------------------------------------------
     def on_event(self, event, payload):
         self.check_initialised()
         initial_lights_on = self.lights_on
