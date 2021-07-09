@@ -32,8 +32,13 @@ class MoteLightingControlPlugin(
     def __init__(self):
         self.mote = None
         self.mote_type = None
-        self.colour = "#FFFFFF"
+        self.colour = "#0000ff"
         self.lights_on = False
+
+    # -----------------------------------------------------------------------
+    def check_initialised(self):
+        if self.mote is None:
+            self.initialise_leds()
 
     # -----------------------------------------------------------------------
     def initialise_leds(self):
@@ -51,7 +56,7 @@ class MoteLightingControlPlugin(
         self.set_leds(self.lights_on, self.colour)
 
     # -----------------------------------------------------------------------
-    def set_leds(self, lights_on: bool = True, colour: str = "#FFFFFF"):
+    def set_leds(self, lights_on: bool = True, colour: str = "#0000ff"):
         hex = colour.lstrip("#")
         red, green, blue = tuple(int(hex[i : i + 2], 16) for i in (0, 2, 4))
         if lights_on is False or (red == 0 and green == 0 and blue == 0):
@@ -67,6 +72,7 @@ class MoteLightingControlPlugin(
 
     # -----------------------------------------------------------------------
     def on_event(self, event, payload):
+        self.check_initialised()
         initial_lights_on = self.lights_on
         initial_colour = self.colour
         transitory = False
