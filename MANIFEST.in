@@ -1,0 +1,4 @@
+include README.md
+recursive-include octoprint_mote_lighting_control/templates *
+recursive-include octoprint_mote_lighting_control/translations *
+recursive-include octoprint_mote_lighting_control/static *
