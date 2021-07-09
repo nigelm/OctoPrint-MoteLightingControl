@@ -60,11 +60,11 @@ class MoteLightingControlPlugin(
         hex = colour.lstrip("#")
         red, green, blue = tuple(int(hex[i : i + 2], 16) for i in (0, 2, 4))
         if lights_on is False or (red == 0 and green == 0 and blue == 0):
-            self._logger.info("Mote: setting LEDs off")
+            self._logger.debug("Mote: setting LEDs off")
             self.lights_on = False
             self.mote.clear()
         else:
-            self._logger.info(f"Mote: setting LEDs on to colour {colour}")
+            self._logger.debug(f"Mote: setting LEDs on to colour {colour}")
             self.lights_on = True
             self.colour = colour
             self.mote.set_all(r=red, g=green, b=blue, brightness=1.0)
@@ -78,41 +78,42 @@ class MoteLightingControlPlugin(
     # -----------------------------------------------------------------------
     def on_event(self, event, payload):
         self.check_initialised()
-        initial_lights_on = self.lights_on
-        initial_colour = self.colour
-        transitory = False
-        lights_on = True
-        colour = "#0000ff"  # deep blue - not used elsewhere
-        if event == "Startup":
-            colour = self._settings.get(["startup_colour"])
-        elif event == "Connected":
-            colour = self._settings.get(["connect_colour"])
-        elif event == "Disconnected":
-            colour = self._settings.get(["disconnect_colour"])
-        elif event == "Upload":
-            colour = self._settings.get(["upload_colour"])
-            transitory = True
-        elif event == "PrintStarted":
-            colour = self._settings.get(["printing_colour"])
-        elif event == "PrintFailed" or event == "Error":
-            colour = self._settings.get(["error_colour"])
-        elif event == "PrintDone":
-            colour = self._settings.get(["done_colour"])
-        elif event == "ClientOpened":
-            colour = self._settings.get(["connect_colour"])
-            transitory = True
-        elif event == "ClientClosed":
-            colour = self._settings.get(["startup_colour"])
-            transitory = True
-        else:
-            # not an event we handle... just return
-            return
+        if self._settings.get_boolean(["on_events"]):
+            initial_lights_on = self.lights_on
+            initial_colour = self.colour
+            transitory = False
+            lights_on = True
+            colour = "#0000ff"  # deep blue - not used elsewhere
+            if event == "Startup":
+                colour = self._settings.get(["startup_colour"])
+            elif event == "Connected":
+                colour = self._settings.get(["connect_colour"])
+            elif event == "Disconnected":
+                colour = self._settings.get(["disconnect_colour"])
+            elif event == "Upload":
+                colour = self._settings.get(["upload_colour"])
+                transitory = True
+            elif event == "PrintStarted":
+                colour = self._settings.get(["printing_colour"])
+            elif event == "PrintFailed" or event == "Error":
+                colour = self._settings.get(["error_colour"])
+            elif event == "PrintDone":
+                colour = self._settings.get(["done_colour"])
+            elif event == "ClientOpened":
+                colour = self._settings.get(["connect_colour"])
+                transitory = True
+            elif event == "ClientClosed":
+                colour = self._settings.get(["startup_colour"])
+                transitory = True
+            else:
+                # not an event we handle... just return
+                return
 
-        self._logger.info(f"Mote: Setting lighting for event {event} to colour {colour}")
-        self.set_leds(lights_on=lights_on, colour=colour)
-        if transitory:
-            time.sleep(4.0)
-            self.set_leds(lights_on=initial_lights_on, colour=initial_colour)
+            self._logger.info(f"Mote: Setting lighting for event {event} to colour {colour}")
+            self.set_leds(lights_on=lights_on, colour=colour)
+            if transitory:
+                time.sleep(4.0)
+                self.set_leds(lights_on=initial_lights_on, colour=initial_colour)
 
     # -----------------------------------------------------------------------
     def get_settings_defaults(self):
@@ -121,6 +122,8 @@ class MoteLightingControlPlugin(
             lights_on=False,  # lights currently off
             current_colour="#ffffff",  # current - white
             mote_type=mote_type,
+            manual_colour="#ffffff",  # manual colour - white
+            on_events=False,  # change colour on events
             startup_colour="#3030ff",  # startup - blue
             error_colour="#ff0000",  # error - red
             printing_colour="#ffffff",  # printing - white
@@ -129,6 +132,18 @@ class MoteLightingControlPlugin(
             upload_colour="#ffff00",  # upload - yellow
             disconnect_colour="#000000",  # disconnect - black/off
         )
+
+    # -----------------------------------------------------------------------
+    def get_settings_version(self):
+        return 1
+
+    # -----------------------------------------------------------------------
+    def on_settings_migrate(self, target, current=None):
+        if current is None or current < 1:
+            # Reset settings to defaults.
+            self._logger.debug("Resetting all Mote settings.")
+            for (item, value) in self.get_settings_defaults().items():
+                self._settings.set([item], value)
 
     # -----------------------------------------------------------------------
     def get_template_configs(self):

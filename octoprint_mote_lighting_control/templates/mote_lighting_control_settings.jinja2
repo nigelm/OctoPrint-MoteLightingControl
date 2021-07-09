@@ -7,6 +7,18 @@
         </div>
     </div>
     <div class="control-group">
+        <label class="control-label">{{ _('Manual Lighting Colour') }}</label>
+        <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.manual_colour">
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input type="checkbox" data-toggle="tooltip" data-bind="checked: settings.plugins.mote_lighting_control.on_events, tooltip: {}" title="{{ _('When enabled allows Mote lights to change with OctoPrint state.') }}" /> {{ _('Change lights on Events.') }}
+            </label>
+        </div>
+    </div>
+    <div class="control-group">
         <label class="control-label">{{ _('On OctoPrint Startup') }}</label>
         <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.startup_colour">
         </div>
