@@ -26,6 +26,8 @@ class MoteLightingControlPlugin(
     octoprint.plugin.TemplatePlugin,
     octoprint.plugin.StartupPlugin,
     octoprint.plugin.EventHandlerPlugin,
+    octoprint.plugin.SimpleApiPlugin,
+    octoprint.plugin.RestartNeedingPlugin,
 ):
 
     # -----------------------------------------------------------------------
@@ -133,7 +135,7 @@ class MoteLightingControlPlugin(
             current_colour="#ffffff",  # current - white
             mote_type=mote_type,
             manual_colour="#ffffff",  # manual colour - white
-            on_events=False,  # change colour on events
+            on_events=True,  # change colour on events
             startup_colour="#3030ff",  # startup - blue
             error_colour="#ff0000",  # error - red
             printing_colour="#ffffff",  # printing - white
