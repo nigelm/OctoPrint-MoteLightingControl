@@ -50,7 +50,7 @@ class MoteLightingControlPlugin(
             self.mote = Mote()
             # set up 4 channels
             for channel in range(1, 5):
-                mote.configure_channel(channel=1, num_pixels=16, gamma_correction=False)
+                self.mote.configure_channel(channel=1, num_pixels=16, gamma_correction=False)
         else:
             self.mote = mote
         self.set_leds(self.lights_on, self.colour)
