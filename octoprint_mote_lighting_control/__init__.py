@@ -131,6 +131,10 @@ class MoteLightingControlPlugin(
         )
 
     # -----------------------------------------------------------------------
+    def get_template_configs(self):
+        return [dict(type="navbar", custom_bindings=False), dict(type="settings", custom_bindings=False)]
+
+    # -----------------------------------------------------------------------
     def get_assets(self):
         # Define your plugin's asset files to automatically include in the
         # core UI here.
