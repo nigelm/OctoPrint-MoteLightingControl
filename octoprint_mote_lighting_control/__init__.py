@@ -1,5 +1,6 @@
 import time
 
+import flask
 import octoprint.plugin
 
 # initial mote import
