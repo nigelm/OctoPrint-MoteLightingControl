@@ -116,6 +116,16 @@ class MoteLightingControlPlugin(
                 self.set_leds(lights_on=initial_lights_on, colour=initial_colour)
 
     # -----------------------------------------------------------------------
+    def on_api_get(self, request):
+        if self.lights_on:
+            self.set_leds(lights_on=False)
+        else:
+            self.set_leds(lights_on=True, colour=self._settings.get(["manual_colour"]))
+
+        self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.lights_on))
+        return flask.jsonify(status="ok")
+
+    # -----------------------------------------------------------------------
     def get_settings_defaults(self):
         """Default settings for the plugin"""
         return dict(
@@ -144,6 +154,15 @@ class MoteLightingControlPlugin(
             self._logger.debug("Resetting all Mote settings.")
             for (item, value) in self.get_settings_defaults().items():
                 self._settings.set([item], value)
+
+    # -----------------------------------------------------------------------
+    def on_settings_save(self, data):
+        manual_colour = self._settings.get(["manual_colour"])
+        if manual_colour == "#000000":
+            # setting manual colour to black confuses me...
+            self._logger.info("Resetting manual colour to non-black")
+            self._settings.set(["manual_colour"], "#ffffff")
+        octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
 
     # -----------------------------------------------------------------------
     def get_template_configs(self):

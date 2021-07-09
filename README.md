@@ -30,3 +30,16 @@ The selectable states, and their default colours are:-
 - *Active Printing* - White
 - *Print Finished* - Pink
 - *Error* or *Print Failed* - Red
+
+## Credits
+
+This plugin draws very heavily on [`OctoPrintMote`]
+(https://github.com/topshed/OctoPrintMote) by [Richard Hayler]
+(https://github.com/topshed)
+
+Additionally some code was used from [`OctoLight`]
+(https://plugins.octoprint.org/plugins/octolight/) (the API handling code and
+js), and [`TP-Link Smartplug`]
+(https://plugins.octoprint.org/plugins/tplinksmartplug/).  Unfortunately the
+plugin documentation is insufficiently complete to make sole use of - so
+inspecting other plugins is the only option.
