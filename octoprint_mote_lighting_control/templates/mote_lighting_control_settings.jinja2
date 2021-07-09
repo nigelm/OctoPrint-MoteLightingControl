@@ -1,0 +1,30 @@
+<form class="form-horizontal">
+    <h3>{{ _('Mote Colours') }}</h3>
+    <div class="control-group">
+        <label class="control-label">{{ _('Mote Type') }}</label>
+        <div class="controls">
+            <input type="test" class="input-mini" data-bind="value: settings.plugins.mote_lighting_control.mote_type" readonly>
+        </div>
+        <label class="control-label">{{ _('On OctoPrint Startup') }}</label>
+        <div class="controls"><input type="color" class="input-mini" data-bind="value: settings.plugins.mote_lighting_control.startup_colour">
+        </div>
+        <label class="control-label">{{ _('Printer Connected') }}</label>
+        <div class="controls"><input type="color" class="input-mini" data-bind="value: settings.plugins.mote_lighting_control.connect_colour">
+        </div>
+        <label class="control-label">{{ _('Printer Disconnected') }}</label>
+        <div class="controls"><input type="color" class="input-mini" data-bind="value: settings.plugins.mote_lighting_control.disconnect_colour">
+        </div>
+        <label class="control-label">{{ _('File Uploaded') }}</label>
+        <div class="controls"><input type="color" class="input-mini" data-bind="value: settings.plugins.mote_lighting_control.upload_colour">
+        </div>
+        <label class="control-label">{{ _('Active Printing') }}</label>
+        <div class="controls"><input type="color" class="input-mini" data-bind="value: settings.plugins.mote_lighting_control.printing_colour">
+        </div>
+        <label class="control-label">{{ _('Print Finished') }}</label>
+        <div class="controls"><input type="color" class="input-mini" data-bind="value: settings.plugins.mote_lighting_control.done_colour">
+        </div>
+        <label class="control-label">{{ _('Error') }}</label>
+        <div class="controls"><input type="color" class="input-mini" data-bind="value: settings.plugins.mote_lighting_control.error_colour">
+        </div>
+    </div>
+</form>
