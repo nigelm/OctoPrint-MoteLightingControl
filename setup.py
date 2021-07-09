@@ -19,7 +19,11 @@ plugin_version = "0.2.0"
 
 # The plugin's description. Can be overwritten within OctoPrint's internal data via __plugin_description__ in the plugin
 # module
-plugin_description = """TODO"""
+plugin_description = """
+  Control a set of [Pimoroni Mote](https://shop.pimoroni.com/products/mote)
+  lights - with different OctoPrint conditions causing changes in the lighting
+  colour and state.
+  """
 
 # The plugin's author. Can be overwritten within OctoPrint's internal data via __plugin_author__ in the plugin module
 plugin_author = "Nigel Metheringham"
