@@ -62,7 +62,7 @@ class MoteLightingControlPlugin(
         if lights_on is False or (red == 0 and green == 0 and blue == 0):
             self._logger.info("Mote: setting LEDs off")
             self.lights_on = False
-            mote.clear()
+            self.mote.clear()
         else:
             self._logger.info(f"Mote: setting LEDs on to colour {colour}")
             self.lights_on = True
