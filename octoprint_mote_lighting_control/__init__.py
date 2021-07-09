@@ -1,7 +1,7 @@
 import time
 
-import flask
 import octoprint.plugin
+from flask import jsonify
 
 # initial mote import
 try:
@@ -126,7 +126,7 @@ class MoteLightingControlPlugin(
             self.set_leds(lights_on=True, colour=self._settings.get(["manual_colour"]))
 
         self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.lights_on))
-        return flask.jsonify(status="ok")
+        return jsonify(status="ok")
 
     # -----------------------------------------------------------------------
     def get_settings_defaults(self):
