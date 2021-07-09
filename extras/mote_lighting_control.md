@@ -3,13 +3,16 @@ layout: plugin
 
 id: mote_lighting_control
 title: OctoPrint-MoteLightingControl
-description: TODO
+description: >
+  Control a set of [Pimoroni Mote]
+  (https://shop.pimoroni.com/products/mote) lights - with different OctoPrint
+  conditions causing changes in the lighting colour and state.
 authors:
 - Nigel Metheringham
 license: AGPLv3
 
 # TODO
-date: today's date in format YYYY-MM-DD, e.g. 2015-04-21
+date: 2021-07-09
 
 homepage: https://github.com/nigelm/OctoPrint-MoteLightingControl
 source: https://github.com/nigelm/OctoPrint-MoteLightingControl
@@ -47,56 +50,23 @@ featuredimage: url of a featured image for your plugin, /assets/img/...
 # "compatibility" block if this is not the case.
 
 compatibility:
-
-  # List of compatible versions
-  #
-  # A single version number will be interpretated as a minimum version requirement,
-  # e.g. "1.3.1" will show the plugin as compatible to OctoPrint versions 1.3.1 and up.
-  # More sophisticated version requirements can be modelled too by using PEP440
-  # compatible version specifiers.
-  #
-  # You can also remove the whole "octoprint" block. Removing it will default to all
-  # OctoPrint versions being supported.
-
+  # Python 3 only so we restrict octoprint too.  Allow windows, but don't realistically
+  # expect it to work there!
   octoprint:
   - 1.4.0
-
-  # List of compatible operating systems
-  #
-  # Valid values:
-  #
-  # - windows
-  # - linux
-  # - macos
-  # - freebsd
-  #
-  # There are also two OS groups defined that get expanded on usage:
-  #
-  # - posix: linux, macos and freebsd
-  # - nix: linux and freebsd
-  #
-  # You can also remove the whole "os" block. Removing it will default to all
-  # operating systems being supported.
-
   os:
   - linux
   - windows
   - macos
   - freebsd
-
-  # Compatible Python version
-  #
-  # Plugins should aim for compatibility for Python 2 and 3 for now, in which case the value should be ">=2.7,<4".
-  #
-  # Plugins that only wish to support Python 3 should set it to ">=3,<4".
-  #
-  # If your plugin only supports Python 2 (worst case, not recommended for newly developed plugins since Python 2
-  # is EOL), leave at ">=2.7,<3" - be aware that your plugin will not be allowed to register on the
-  # plugin repository if it only support Python 2.
-
-  python: ">=2.7,<3"
+  python: ">=3,<4"
 
 ---
 
-**TODO**: Longer description of your plugin, configuration examples etc. This part will be visible on the page at
-http://plugins.octoprint.org/plugin/mote_lighting_control/
+Control a set of [Pimoroni Mote]
+(https://shop.pimoroni.com/products/mote) lights - with different OctoPrint
+conditions causing changes in the lighting colour and state.
+
+In theory the code will support both the USB and Phat (Pi Zero hat) versions
+of the Mote controllers, however I have only tested it with USB, and a Pi
+Zero is not suitable for running OctoPrint, so is not likely to be used.
