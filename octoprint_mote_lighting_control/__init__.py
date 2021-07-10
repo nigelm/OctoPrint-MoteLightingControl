@@ -2,22 +2,9 @@ import time
 
 import octoprint.plugin
 from flask import jsonify
+from mote import Mote
 
-# initial mote import
-try:
-    from mote import Mote
-
-    mote_type = "USB"
-
-except ImportError:
-    try:
-        import motephat as mote
-
-        mote_type = "PHAT"
-    except ImportError:
-        import sys
-
-        sys.exit(-1)
+mote_type = "USB"  # this is the only possible type now
 
 
 # -----------------------------------------------------------------------
@@ -39,9 +26,11 @@ class MoteLightingControlPlugin(
         self.lights_on = False
 
     # -----------------------------------------------------------------------
-    def check_initialised(self):
+    def check_initialised(self) -> bool:
         if self.mote is None:
             self.initialise_leds()
+
+        return False if self.mote is None else True
 
     # -----------------------------------------------------------------------
     def initialise_leds(self):
@@ -50,13 +39,20 @@ class MoteLightingControlPlugin(
         self.mote_type = mote_type
         self._logger.info(f"Initialising Mote({self.mote_type}) Lighting")
         if self.mote_type == "USB":
-            self.mote = Mote()
-            # set up 4 channels
-            for channel in range(1, 5):
-                self.mote.configure_channel(channel=1, num_pixels=16, gamma_correction=False)
+            try:
+                self.mote = Mote()
+                # set up 4 channels
+                for channel in range(1, 5):
+                    self.mote.configure_channel(channel=1, num_pixels=16, gamma_correction=False)
+            except OSError as err:
+                self._logger.error(f"Error initialising Mote({self.mote_type}) - {err}")
+                self.mote = None
         else:
-            self.mote = mote
-        self.set_leds(self.lights_on, self.colour)
+            self._logger.error(f"Unable to initialisw Mote({self.mote_type})")
+            self.mote = None
+
+        if self.mote:
+            self.set_leds(self.lights_on, self.colour)
 
     # -----------------------------------------------------------------------
     def set_leds(self, lights_on: bool = True, colour: str = "#0000ff"):
@@ -80,53 +76,56 @@ class MoteLightingControlPlugin(
 
     # -----------------------------------------------------------------------
     def on_event(self, event, payload):
-        self.check_initialised()
-        if self._settings.get_boolean(["on_events"]):
-            initial_lights_on = self.lights_on
-            initial_colour = self.colour
-            transitory = False
-            lights_on = True
-            colour = "#0000ff"  # deep blue - not used elsewhere
-            if event == "Startup":
-                colour = self._settings.get(["startup_colour"])
-            elif event == "Connected":
-                colour = self._settings.get(["connect_colour"])
-            elif event == "Disconnected":
-                colour = self._settings.get(["disconnect_colour"])
-            elif event == "Upload":
-                colour = self._settings.get(["upload_colour"])
-                transitory = True
-            elif event == "PrintStarted":
-                colour = self._settings.get(["printing_colour"])
-            elif event == "PrintFailed" or event == "Error":
-                colour = self._settings.get(["error_colour"])
-            elif event == "PrintDone":
-                colour = self._settings.get(["done_colour"])
-            elif event == "ClientOpened":
-                colour = self._settings.get(["connect_colour"])
-                transitory = True
-            elif event == "ClientClosed":
-                colour = self._settings.get(["startup_colour"])
-                transitory = True
-            else:
-                # not an event we handle... just return
-                return
+        if self.check_initialised():
+            if self._settings.get_boolean(["on_events"]):
+                initial_lights_on = self.lights_on
+                initial_colour = self.colour
+                transitory = False
+                lights_on = True
+                colour = "#0000ff"  # deep blue - not used elsewhere
+                if event == "Startup":
+                    colour = self._settings.get(["startup_colour"])
+                elif event == "Connected":
+                    colour = self._settings.get(["connect_colour"])
+                elif event == "Disconnected":
+                    colour = self._settings.get(["disconnect_colour"])
+                elif event == "Upload":
+                    colour = self._settings.get(["upload_colour"])
+                    transitory = True
+                elif event == "PrintStarted":
+                    colour = self._settings.get(["printing_colour"])
+                elif event == "PrintFailed" or event == "Error":
+                    colour = self._settings.get(["error_colour"])
+                elif event == "PrintDone":
+                    colour = self._settings.get(["done_colour"])
+                elif event == "ClientOpened":
+                    colour = self._settings.get(["connect_colour"])
+                    transitory = True
+                elif event == "ClientClosed":
+                    colour = self._settings.get(["startup_colour"])
+                    transitory = True
+                else:
+                    # not an event we handle... just return
+                    return
 
-            self._logger.info(f"Mote: Setting lighting for event {event} to colour {colour}")
-            self.set_leds(lights_on=lights_on, colour=colour)
-            if transitory:
-                time.sleep(4.0)
-                self.set_leds(lights_on=initial_lights_on, colour=initial_colour)
+                self._logger.info(f"Mote: Setting lighting for event {event} to colour {colour}")
+                self.set_leds(lights_on=lights_on, colour=colour)
+                if transitory:
+                    time.sleep(4.0)
+                    self.set_leds(lights_on=initial_lights_on, colour=initial_colour)
 
     # -----------------------------------------------------------------------
     def on_api_get(self, request):
-        if self.lights_on:
-            self.set_leds(lights_on=False)
-        else:
-            self.set_leds(lights_on=True, colour=self._settings.get(["manual_colour"]))
+        if self.check_initialised():
+            if self.lights_on:
+                self.set_leds(lights_on=False)
+            else:
+                self.set_leds(lights_on=True, colour=self._settings.get(["manual_colour"]))
 
-        self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.lights_on))
-        return jsonify(status="ok")
+            self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.lights_on))
+            return jsonify(status="ok")
+        else:
+            return jsonify(status="unitialised")
 
     # -----------------------------------------------------------------------
     def get_settings_defaults(self):
