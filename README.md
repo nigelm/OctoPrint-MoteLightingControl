@@ -6,9 +6,13 @@ Control a set of [Pimoroni Mote]
 (https://shop.pimoroni.com/products/mote) lights - with different OctoPrint
 conditions causing changes in the lighting colour and state.
 
-In theory the code will support both the USB and Phat (Pi Zero hat) versions
-of the Mote controllers, however I have only tested it with USB, and a Pi
-Zero is not suitable for running OctoPrint, so is not likely to be used.
+Lighting changes can happen on changes in state - for example a print start or
+finish - or via a manual button on the navbar.
+
+This code only supports the USB version of the Mote controllers.  Since a Pi
+Zero is not suitable for running OctoPrint, and is not likely to be used, and
+I do not have the relevant hardware, the PHAT version of the Mote controller
+is not supported.
 
 ## Setup
 
@@ -21,6 +25,11 @@ or manually using this URL:
 ## Configuration
 
 The configuration allows you to select the colours used for each OctoPrint state.
+
+You can enable/disable automatic lighting changes on any state change, and
+additionally enable/disable each state individually.   By default all state
+changes do cause lighting changes,
+
 The selectable states, and their default colours are:-
 
 - *On OctoPrint Startup* - Blue
@@ -30,6 +39,7 @@ The selectable states, and their default colours are:-
 - *Active Printing* - White
 - *Print Finished* - Pink
 - *Error* or *Print Failed* - Red
+
 
 ## Credits
 
