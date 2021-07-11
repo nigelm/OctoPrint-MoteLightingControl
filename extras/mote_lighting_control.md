@@ -3,43 +3,31 @@ layout: plugin
 
 id: mote_lighting_control
 title: OctoPrint-MoteLightingControl
-description: >
-  Control a set of [Pimoroni Mote]
-  (https://shop.pimoroni.com/products/mote) lights - with different OctoPrint
-  conditions causing changes in the lighting colour and state.
+description: Control a set of Mote lights - with different OctoPrint conditions causing changes in the lighting colour and state.
 authors:
 - Nigel Metheringham
 license: AGPLv3
 
-# TODO
-date: 2021-07-09
+date: 2021-07-11
 
 homepage: https://github.com/nigelm/OctoPrint-MoteLightingControl
 source: https://github.com/nigelm/OctoPrint-MoteLightingControl
 archive: https://github.com/nigelm/OctoPrint-MoteLightingControl/archive/main.zip
 
-# TODO
-# Set this to true if your plugin uses the dependency_links setup parameter to include
-# library versions not yet published on PyPi. SHOULD ONLY BE USED IF THERE IS NO OTHER OPTION!
-#follow_dependency_links: false
-
-# TODO
 tags:
 - lights
 - led
 - rgb
 
-# TODO
 screenshots:
-- url: https://github.com/nigelm/OctoPrint-MoteLightingControl/blob/main/assets/img/mote_lights_configuration.png
+- url: https://raw.githubusercontent.com/nigelm/OctoPrint-MoteLightingControl/main/assets/img/mote_lights_configuration.png
   alt: Configuration Screen
   caption: Configuration Screen
-- url: https://github.com/nigelm/OctoPrint-MoteLightingControl/blob/main/assets/img/mote_lights_navbar.png
+- url: https://raw.githubusercontent.com/nigelm/OctoPrint-MoteLightingControl/main/assets/img/mote_lights_navbar.png
   alt: Nav Bar lighting button
   caption: Nav Bar lighting button
 
-# TODO
-featuredimage: https://github.com/nigelm/OctoPrint-MoteLightingControl/blob/main/assets/img/mote_lights.jpg
+featuredimage: https://raw.githubusercontent.com/nigelm/OctoPrint-MoteLightingControl/main/assets/img/mote_lights.jpg
 
 # TODO
 # You only need the following if your plugin requires specific OctoPrint versions or
@@ -60,9 +48,8 @@ compatibility:
 
 ---
 
-Control a set of [Pimoroni Mote]
-(https://shop.pimoroni.com/products/mote) lights - with different OctoPrint
-conditions causing changes in the lighting colour and state.
+Control a set of [Pimoroni Mote](https://shop.pimoroni.com/products/mote)
+lights - with different OctoPrint conditions causing changes in the lighting colour and state.
 
 Lighting changes can happen on changes in state - for example a print start or
 finish - or via a manual button on the navbar.
