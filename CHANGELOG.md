@@ -13,6 +13,8 @@ Unreleased Changes
 ------------------
 
 <!-- insertion marker -->
+[0.3.1] - 2021-07-11
+--------------------
 [0.3.0] - 2021-07-11
 --------------------
 - Dropped untested PHAT support
