@@ -1,6 +1,6 @@
 # OctoPrint-MoteLightingControl
 
-Version: `0.2.3`
+Version: `0.3.0`
 
 Control a set of [Pimoroni Mote]
 (https://shop.pimoroni.com/products/mote) lights - with different OctoPrint
