@@ -5,6 +5,8 @@ from flask import jsonify
 from mote import Mote
 
 mote_type = "USB"  # this is the only possible type now
+MAX_MOTE_CHANNELS = 4
+MAX_PIXELS_PER_CHANNEL = 16
 
 
 # -----------------------------------------------------------------------
@@ -42,8 +44,12 @@ class MoteLightingControlPlugin(
             try:
                 self.mote = Mote()
                 # set up 4 channels
-                for channel in range(1, 5):
-                    self.mote.configure_channel(channel=1, num_pixels=16, gamma_correction=False)
+                for channel in range(1, MAX_MOTE_CHANNELS + 1):
+                    self.mote.configure_channel(
+                        channel=channel,
+                        num_pixels=MAX_PIXELS_PER_CHANNEL,
+                        gamma_correction=False,
+                    )
             except OSError as err:
                 self._logger.error(f"Error initialising Mote({self.mote_type}) - {err}")
                 self.mote = None
