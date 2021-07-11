@@ -89,25 +89,25 @@ class MoteLightingControlPlugin(
                 transitory = False
                 lights_on = True
                 colour = "#0000ff"  # deep blue - not used elsewhere
-                if event == "Startup":
+                if event == "Startup" and self._settings.get_boolean(["on_event_startup"]):
                     colour = self._settings.get(["startup_colour"])
-                elif event == "Connected":
+                elif event == "Connected" and self._settings.get_boolean(["on_event_connect"]):
                     colour = self._settings.get(["connect_colour"])
-                elif event == "Disconnected":
+                elif event == "Disconnected" and self._settings.get_boolean(["on_event_disconnect"]):
                     colour = self._settings.get(["disconnect_colour"])
-                elif event == "Upload":
+                elif event == "Upload" and self._settings.get_boolean(["on_event_upload"]):
                     colour = self._settings.get(["upload_colour"])
                     transitory = True
-                elif event == "PrintStarted":
+                elif event == "PrintStarted" and self._settings.get_boolean(["on_event_printing"]):
                     colour = self._settings.get(["printing_colour"])
-                elif event == "PrintFailed" or event == "Error":
+                elif (event == "PrintFailed" or event == "Error") and self._settings.get_boolean(["on_event_error"]):
                     colour = self._settings.get(["error_colour"])
-                elif event == "PrintDone":
+                elif event == "PrintDone" and self._settings.get_boolean(["on_event_done"]):
                     colour = self._settings.get(["done_colour"])
-                elif event == "ClientOpened":
+                elif event == "ClientOpened" and self._settings.get_boolean(["on_event_connect"]):
                     colour = self._settings.get(["connect_colour"])
                     transitory = True
-                elif event == "ClientClosed":
+                elif event == "ClientClosed" and self._settings.get_boolean(["on_event_startup"]):
                     colour = self._settings.get(["startup_colour"])
                     transitory = True
                 else:
@@ -142,18 +142,25 @@ class MoteLightingControlPlugin(
             mote_type=mote_type,
             manual_colour="#ffffff",  # manual colour - white
             on_events=True,  # change colour on events
+            on_event_startup=True,  # change colour on startup event
             startup_colour="#3030ff",  # startup - blue
+            on_event_error=True,  # change colour on error event
             error_colour="#ff0000",  # error - red
+            on_event_printing=True,  # change colour on printing event
             printing_colour="#ffffff",  # printing - white
+            on_event_connect=True,  # change colour on connect event
             connect_colour="#30ff30",  # connect - green
+            on_event_done=True,  # change colour on done event
             done_colour="#ff30ff",  # completed - pink
+            on_event_upload=True,  # change colour on upload event
             upload_colour="#ffff00",  # upload - yellow
+            on_event_disconnect=False,  # change colour on disconnect event
             disconnect_colour="#000000",  # disconnect - black/off
         )
 
     # -----------------------------------------------------------------------
     def get_settings_version(self):
-        return 1
+        return 2
 
     # -----------------------------------------------------------------------
     def on_settings_migrate(self, target, current=None):
@@ -162,6 +169,10 @@ class MoteLightingControlPlugin(
             self._logger.debug("Resetting all Mote settings.")
             for (item, value) in self.get_settings_defaults().items():
                 self._settings.set([item], value)
+        if current == 1:
+            for item in ("startup", "error", "printing", "connect", "done", "upload"):
+                self._settings.set([item], True)
+            self._settings.set(["disconnect"], False)
 
     # -----------------------------------------------------------------------
     def on_settings_save(self, data):

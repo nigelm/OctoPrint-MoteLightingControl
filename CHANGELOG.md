@@ -16,6 +16,7 @@ Unreleased Changes
 - Dropped untested PHAT support
 - Ensured missing USB Motes do not take system out
 - Fixed issues with Mote channels
+- Made all state changes individually ignorable
 
 
 [0.2.3] - 2021-07-10

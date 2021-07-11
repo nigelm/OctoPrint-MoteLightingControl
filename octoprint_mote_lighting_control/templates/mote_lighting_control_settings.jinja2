@@ -20,37 +20,51 @@
     </div>
     <div class="control-group">
         <label class="control-label">{{ _('On OctoPrint Startup') }}</label>
-        <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.startup_colour">
+        <div class="controls">
+            <input type="checkbox" data-toggle="tooltip" data-bind="checked: settings.plugins.mote_lighting_control.on_event_startup, tooltip: {}" />
+            <input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.startup_colour">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label">{{ _('Printer Connected') }}</label>
-        <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.connect_colour">
+        <div class="controls">
+            <input type="checkbox" data-toggle="tooltip" data-bind="checked: settings.plugins.mote_lighting_control.on_event_connect, tooltip: {}" />
+            <input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.connect_colour">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label">{{ _('Printer Disconnected') }}</label>
-        <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.disconnect_colour">
+        <div class="controls">
+            <input type="checkbox" data-toggle="tooltip" data-bind="checked: settings.plugins.mote_lighting_control.on_event_disconnect, tooltip: {}" />
+            <input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.disconnect_colour">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label">{{ _('File Uploaded') }}</label>
-        <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.upload_colour">
+        <div class="controls">
+            <input type="checkbox" data-toggle="tooltip" data-bind="checked: settings.plugins.mote_lighting_control.on_event_upload, tooltip: {}" />
+            <input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.upload_colour">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label">{{ _('Active Printing') }}</label>
-        <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.printing_colour">
+        <div class="controls">
+            <input type="checkbox" data-toggle="tooltip" data-bind="checked: settings.plugins.mote_lighting_control.on_event_printing, tooltip: {}" />
+            <input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.printing_colour">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label">{{ _('Print Finished') }}</label>
-        <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.done_colour">
+        <div class="controls">
+            <input type="checkbox" data-toggle="tooltip" data-bind="checked: settings.plugins.mote_lighting_control.on_event_done, tooltip: {}" />
+            <input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.done_colour">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label">{{ _('Error') }}</label>
-        <div class="controls"><input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.error_colour">
+        <div class="controls">
+            <input type="checkbox" data-toggle="tooltip" data-bind="checked: settings.plugins.mote_lighting_control.on_event_error, tooltip: {}" />
+            <input type="color" class="input" data-bind="value: settings.plugins.mote_lighting_control.error_colour">
         </div>
     </div>
 </form>
