@@ -17,6 +17,8 @@ Unreleased Changes
 - Ensured missing USB Motes do not take system out
 - Fixed issues with Mote channels
 - Made all state changes individually ignorable
+- Previously CLient Connect/Disconnect were events, but reusued printer
+  Connect/Disconnect colours.  Have just removed them for now.
 
 
 [0.2.3] - 2021-07-10

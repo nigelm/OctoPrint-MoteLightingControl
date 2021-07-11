@@ -104,12 +104,6 @@ class MoteLightingControlPlugin(
                     colour = self._settings.get(["error_colour"])
                 elif event == "PrintDone" and self._settings.get_boolean(["on_event_done"]):
                     colour = self._settings.get(["done_colour"])
-                elif event == "ClientOpened" and self._settings.get_boolean(["on_event_connect"]):
-                    colour = self._settings.get(["connect_colour"])
-                    transitory = True
-                elif event == "ClientClosed" and self._settings.get_boolean(["on_event_startup"]):
-                    colour = self._settings.get(["startup_colour"])
-                    transitory = True
                 else:
                     # not an event we handle... just return
                     return
@@ -170,9 +164,8 @@ class MoteLightingControlPlugin(
             for (item, value) in self.get_settings_defaults().items():
                 self._settings.set([item], value)
         if current == 1:
-            for item in ("startup", "error", "printing", "connect", "done", "upload"):
+            for item in ("startup", "error", "printing", "connect", "done", "upload", "disconnect"):
                 self._settings.set([item], True)
-            self._settings.set(["disconnect"], False)
 
     # -----------------------------------------------------------------------
     def on_settings_save(self, data):
