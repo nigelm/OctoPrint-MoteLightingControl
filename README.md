@@ -51,6 +51,3 @@ Additionally some code was used from
 [`OctoLight`](https://plugins.octoprint.org/plugins/octolight/)
 (the API handling code and js), and
 [`TP-Link Smartplug`](https://plugins.octoprint.org/plugins/tplinksmartplug/).
-
-Unfortunately the plugin documentation is insufficiently complete to make sole
-use of - so inspecting other plugins is the only option.
