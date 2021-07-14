@@ -36,7 +36,7 @@ plugin_url = "https://github.com/nigelm/OctoPrint-MoteLightingControl"
 plugin_license = "AGPLv3"
 
 # Any additional requirements besides OctoPrint should be listed here
-plugin_requires = ["mote", "motephat"]
+plugin_requires = ["mote"]
 
 ### --------------------------------------------------------------------------------------------------------------------
 ### More advanced options that you usually shouldn't have to touch follow after this point
