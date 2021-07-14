@@ -1,5 +1,3 @@
-from typing import Any
-from typing import Dict
 from typing import List
 
 ########################################################################################################################
@@ -64,7 +62,7 @@ plugin_ignored_packages: List[str] = []
 # Example:
 #     plugin_requires = ["someDependency==dev"]
 #     additional_setup_parameters = {"dependency_links": ["https://github.com/someUser/someRepo/archive/master.zip#egg=someDependency-dev"]}
-additional_setup_parameters: Dict[str, Any] = {}
+additional_setup_parameters = {"python_requires": ">=3, <4"}
 
 ########################################################################################################################
 
