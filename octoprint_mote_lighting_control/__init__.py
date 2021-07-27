@@ -42,7 +42,7 @@ class MoteLightingControlPlugin(
     def check_initialised(self) -> bool:
         if self.mote_type is None:
             self.initialise_leds()
-            self._settings(["mote_type"], self.mote_type)
+            self._settings.set(["mote_type"], self.mote_type)
 
         return False if self.mote is None else True
 
