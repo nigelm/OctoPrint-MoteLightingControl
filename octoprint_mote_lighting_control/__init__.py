@@ -88,6 +88,7 @@ class MoteLightingControlPlugin(
             self.mote_type = "Missing"
 
         if self.mote:
+            self._logger.info(f"Successfully initialised Mote({self.mote_type})")
             self.set_leds(self.lights_on, self.colour)
 
     # -----------------------------------------------------------------------
