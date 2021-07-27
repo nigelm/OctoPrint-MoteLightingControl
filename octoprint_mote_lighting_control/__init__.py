@@ -2,9 +2,20 @@ import time
 
 import octoprint.plugin
 from flask import jsonify
-from mote import Mote
 
-mote_type = "USB"  # this is the only possible type now
+try:
+    from mote import Mote
+
+    mote_usb_available = True
+except BaseException:
+    mote_usb_available = False
+try:
+    import motephat
+
+    mote_phat_available = True
+except BaseException:
+    mote_phat_available = False
+
 MAX_MOTE_CHANNELS = 4
 MAX_PIXELS_PER_CHANNEL = 16
 
@@ -29,7 +40,7 @@ class MoteLightingControlPlugin(
 
     # -----------------------------------------------------------------------
     def check_initialised(self) -> bool:
-        if self.mote is None:
+        if self.mote_type is None:
             self.initialise_leds()
 
         return False if self.mote is None else True
@@ -38,11 +49,29 @@ class MoteLightingControlPlugin(
     def initialise_leds(self):
         if self.mote is not None:
             self._logger.warning("Attempting to initialise an already initialised mote system")
-        self.mote_type = mote_type
-        self._logger.info(f"Initialising Mote({self.mote_type}) Lighting")
-        if self.mote_type == "USB":
+        #
+        # Attempt to initialise Mote(USB) if available - this throws exception if not there
+        if self.mote is None and mote_usb_available:
             try:
+                self._logger.info("Initialising Mote(USB) Lighting")
                 self.mote = Mote()
+                self.mote_type = "USB"
+            except OSError as err:
+                self._logger.error(f"Error initialising Mote(USB) - {err}")
+                self.mote = None
+
+        # Attempt to initialise Mote(PHAT) if available - this fails silently if not there
+        if self.mote is None and mote_phat_available:
+            try:
+                self._logger.info("Initialising Mote(PHAT) Lighting")
+                self.mote = motephat
+                self.mote_type = "PHAT"
+            except OSError as err:
+                self._logger.error(f"Error initialising Mote(PHAT) - {err}")
+                self.mote = None
+
+        if self.mote is not None:
+            try:
                 # set up 4 channels
                 for channel in range(1, MAX_MOTE_CHANNELS + 1):
                     self.mote.configure_channel(
@@ -50,12 +79,12 @@ class MoteLightingControlPlugin(
                         num_pixels=MAX_PIXELS_PER_CHANNEL,
                         gamma_correction=False,
                     )
-            except OSError as err:
+            except BaseException as err:
                 self._logger.error(f"Error initialising Mote({self.mote_type}) - {err}")
                 self.mote = None
         else:
-            self._logger.error(f"Unable to initialisw Mote({self.mote_type})")
-            self.mote = None
+            self._logger.error("Unable to initialise Mote")
+            self.mote_type = "Missing"
 
         if self.mote:
             self.set_leds(self.lights_on, self.colour)
