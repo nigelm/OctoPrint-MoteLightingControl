@@ -13,6 +13,8 @@ Unreleased Changes
 ------------------
 
 <!-- insertion marker -->
+[0.4.0] - 2021-08-31
+--------------------
 - Added PHAT support
 
 
