@@ -178,7 +178,7 @@ class MoteLightingControlPlugin(
 
     # -----------------------------------------------------------------------
     def get_template_configs(self):
-        return [dict(type="navbar", custom_bindings=False), dict(type="settings", custom_bindings=False)]
+        return [dict(type="navbar", custom_bindings=True), dict(type="settings", custom_bindings=True)]
 
     # -----------------------------------------------------------------------
     def get_assets(self):
